@@ -28,6 +28,8 @@ class Program
             var baseAddress = jokesApiConfig.Value.EndPoint;
             client.BaseAddress = new Uri(baseAddress);
         });
+        //builder.Services.AddLogging();
+        builder.Services.AddTransient<ICustomLogger,CustomLogger>();
         #endregion
         
         IHost host = builder.Build();
