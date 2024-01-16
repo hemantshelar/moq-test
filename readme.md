@@ -19,3 +19,7 @@ Configure services - Microsoft.Extensions.DependencyInjection
 dotnet add package moq
 
 test commit 
+
+Good [moq video](https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/unit-testing-moq-framework)
+
+Part II of [video](https://www.youtube.com/watch?v=Oqr4klLDzZ4)
