@@ -13,7 +13,8 @@ public interface IJokeProvider
 }
 
 public class JokeProvider(IHttpClientFactory _httpClientFactory,
-IOptions<JokesAPI> _options) : IJokeProvider {
+IOptions<JokesAPI> _options) : IJokeProvider
+{
     public string GetJoke()
     {
         var result = "Here is joke!";
@@ -24,7 +25,7 @@ IOptions<JokesAPI> _options) : IJokeProvider {
 
     public async Task<List<string>> GetJokeCategories()
     {
-        string [] response = [];
+        string[] response = [];
         var httpClient = _httpClientFactory.CreateClient(AppConstants.CNJokeGenerator);
         var res = await httpClient.GetAsync(_options.Value.CNJokeGeneratorAPIOperations.Categories);
         var strResponse = await res.Content.ReadAsStringAsync();

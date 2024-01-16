@@ -8,6 +8,6 @@ namespace JokeGenerator.Models
     public static class AppConstants
     {
         public static readonly string CNJokeGenerator = "CNJokeGenerator";
-        
+
     }
 }

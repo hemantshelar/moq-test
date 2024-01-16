@@ -7,7 +7,7 @@ namespace JokeGenerator.Models;
 public class JokesAPI
 {
     public string EndPoint { get; set; }
-    public CNJokeGeneratorAPIOperations CNJokeGeneratorAPIOperations {get;set;}
+    public CNJokeGeneratorAPIOperations CNJokeGeneratorAPIOperations { get; set; }
 }
 
 public class JokeCategories

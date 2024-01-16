@@ -16,7 +16,7 @@ public class JokeProviderTest
     {
         //Arrange
         HttpResponseMessage result = new HttpResponseMessage();
-        result.Content =  new StringContent(_jokeCats);
+        result.Content = new StringContent(_jokeCats);
 
         var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
         handlerMock
@@ -28,31 +28,34 @@ public class JokeProviderTest
             .ReturnsAsync(result)
             .Verifiable();
 
-        var httpClient = new HttpClient(handlerMock.Object){
+        var httpClient = new HttpClient(handlerMock.Object)
+        {
             BaseAddress = new Uri("https://api.chucknorris.io/jokes/")
         };
 
         var mockHttpClientFactory = new Mock<IHttpClientFactory>();
         mockHttpClientFactory.Setup(_ => _.CreateClient(AppConstants.CNJokeGenerator)).Returns(httpClient);
 
-        IOptions<JokesAPI>  _options = Options.Create<JokesAPI>(new JokesAPI{
-            CNJokeGeneratorAPIOperations = new CNJokeGeneratorAPIOperations {
-                 Categories = "categories"
+        IOptions<JokesAPI> _options = Options.Create<JokesAPI>(new JokesAPI
+        {
+            CNJokeGeneratorAPIOperations = new CNJokeGeneratorAPIOperations
+            {
+                Categories = "categories"
             },
             EndPoint = ""
 
         });
-        IJokeProvider jockProvider = new JokeProvider(mockHttpClientFactory.Object,_options);
+        IJokeProvider jockProvider = new JokeProvider(mockHttpClientFactory.Object, _options);
 
         //Act
         var r = await jockProvider.GetJokeCategories();
 
         //Assert
         Assert.IsNotNull(r);
-        Assert.AreEqual(r.Count(),16);
+        Assert.AreEqual(r.Count(), 16);
         handlerMock
         .Protected()
-        .Verify("SendAsync",Times.Exactly(1),ItExpr.IsAny<HttpRequestMessage>(),ItExpr.IsAny<CancellationToken>());
+        .Verify("SendAsync", Times.Exactly(1), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
 
     }
 }
