@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using JokeGenerator.Models;
 using Microsoft.Extensions.Http;
+using Microsoft.Extensions.Options;
 
 namespace JokeGenerator;
 
@@ -19,16 +20,17 @@ class Program
         .AddOptions<JokesAPI>()
         .Bind(builder.Configuration.GetSection("JokesAPI"));
 
+        var jokesApiConfig = builder.Services.BuildServiceProvider().GetRequiredService<IOptions<JokesAPI>>();
+
         #region Configure DI container
         builder.Services.AddTransient<IJokeProvider,JokeProvider>();
         builder.Services.AddHttpClient(AppConstants.CNJokeGenerator, client => {
-            var baseAddress = builder.Configuration.GetSection("JokesAPI:EndPoint").Value;
+            var baseAddress = jokesApiConfig.Value.EndPoint;
             client.BaseAddress = new Uri(baseAddress);
         });
         #endregion
         
         IHost host = builder.Build();
-
         var jokeProvider = host.Services.GetRequiredService<IJokeProvider>();
         var joke = jokeProvider.GetJoke();
         var categories = await  jokeProvider.GetJokeCategories();
